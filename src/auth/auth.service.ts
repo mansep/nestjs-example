@@ -11,7 +11,7 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-  ) { }
+  ) {}
 
   async login(auth: AuthDto): Promise<AuthResultDto> {
     const error = {
