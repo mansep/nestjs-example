@@ -9,6 +9,7 @@ import { PasswordInterceptor } from '../shared/interceptors/password.interceptor
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
   controllers: [UserController],
+  exports: [UserService],
   providers: [
     {
       provide: APP_INTERCEPTOR,

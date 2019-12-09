@@ -10,14 +10,37 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-  ) { }
+  ) {}
 
   findAll(): Promise<User[]> {
     return this.userRepository.find();
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return await this.userRepository.findOne({ email });
+  }
+
+  async findByEmailOrError(email: string): Promise<User> {
+    const user = this.findByEmail(email);
+
+    if (user === undefined) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Usuario no encontrado',
+        },
+        404,
+      );
+    }
+    return user;
+  }
+
   async findById(id: string): Promise<User> {
-    const user = await this.userRepository.findOne(id);
+    return await this.userRepository.findOne(id);
+  }
+
+  async findByIdOrError(id: string): Promise<User> {
+    const user = await this.findById(id);
 
     if (user === undefined) {
       throw new HttpException(
@@ -41,7 +64,7 @@ export class UserService {
         400,
       );
     }
-    let user = await this.userRepository.findOne({ email: newUser.email });
+    let user = await this.findByEmail(newUser.email);
     if (user !== undefined) {
       throw new HttpException(
         {
