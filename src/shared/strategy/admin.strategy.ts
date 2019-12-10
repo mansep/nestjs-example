@@ -21,12 +21,8 @@ export class AdminStrategy extends PassportStrategy(Strategy, 'admin') {
 
     return {
       id: payload.id,
-      email: payload.email,
-      first_name: payload.first_name,
-      last_name: payload.last_name,
-      seller_id: payload.seller_id,
+      name: payload.name,
       role: payload.role,
-      permissions: payload.permissions,
     };
   }
 }
